@@ -1,0 +1,13 @@
+{
+    "name": "dawd/dwes05_banco",
+    "description": "Aplicación de operación bancaria",
+    "type": "project",
+    "require": {
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

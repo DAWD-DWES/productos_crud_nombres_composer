@@ -4,11 +4,17 @@ session_start();
 require_once '../vendor/autoload.php';
 require_once '../src/error_handler.php';
 
+
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 use App\Modelo\Producto;
 use App\DAO\ProductoDAO;
 use App\DAO\FamiliaDAO;
 use App\BD\BD;
 
+// Configurar Monolog para escribir logs en un archivo
+$logger = new Logger('app_logs');
+$logger->pushHandler(new StreamHandler(__DIR__ . '/../logs/app.log', Logger::ERROR)); // Nivel ERROR
 
 if (!isset($_SESSION['usuario'])) {
 //si no me llega el código del producto a borrar
@@ -59,7 +65,7 @@ if (filter_has_var(INPUT_POST, 'crear')) {
             $producto->setId($productoId);
             $productoInsertado = true;
         } catch (PDOException $ex) {
-            error_log("Error al crear el producto " . $ex->getMessage());
+            $logger->error("Error al crear el producto: " . $ex->getMessage());
             if ($ex->getcode() == 23000) { // Clave duplicada
                 $errorDuplicadoNombreCorto = true;
             } else {
@@ -72,7 +78,7 @@ if (!($productoInsertado ?? false)) {
     try {
         $familias = $familiaDAO->recuperaTodo();
     } catch (PDOException $ex) {
-        error_log("Error al recuperar información de familias " . $ex->getMessage());
+        $logger->error("Error al recuperar información de familias: " . $ex->getMessage()); 
         $familias = [];
     }
 }

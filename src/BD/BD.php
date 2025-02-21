@@ -2,27 +2,31 @@
 
 namespace App\BD;
 
+use Dotenv\Dotenv;
 use \PDO;
 
 class BD {
 
     protected static $bd = null;
 
-    const DB_HOST = '127.0.0.1';
-    const DB_PORT = '3306';
-    const DB_DATABASE = 'proyecto';
-    const DB_USERNAME = 'gestor';
-    const DB_PASSWORD = 'secreto';
-
-    private function __construct() {
-        self::$bd = new PDO("mysql:host=" . BD::DB_HOST . ";dbname=" . BD::DB_DATABASE, BD::DB_USERNAME, BD::DB_PASSWORD);
-        self::$bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        self::$bd->setAttribute(PDO::ATTR_CASE, PDO::CASE_NATURAL);
+    private function __construct(string $host, string $database, string $username, string $password) {
+        try {
+            self::$bd = new PDO("mysql:host=" . $host . ";dbname=" . $database, $username, $password);
+            self::$bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
     }
 
     public static function getConexion() {
         if (!self::$bd) {
-            new BD();
+            $dotenv = Dotenv::createImmutable(__DIR__ . "/../../");
+            $dotenv->load();
+            $host = $_ENV['DB_HOST'];
+            $database = $_ENV['DB_DATABASE'];
+            $username = $_ENV['DB_USERNAME'];
+            $password = $_ENV['DB_PASSWORD'];
+            new BD($host, $database, $username, $password);
         }
         return self::$bd;
     }

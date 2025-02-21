@@ -1,0 +1,1 @@
+[2025-02-14T21:15:07.402974+01:00] app_logs.ERROR: Error al crear el producto: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'proyecto.producto' doesn't exist [] []

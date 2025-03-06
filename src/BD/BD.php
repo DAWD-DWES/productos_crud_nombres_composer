@@ -24,9 +24,9 @@ class BD {
             $dotenv->load();
             $host = $_ENV['DB_HOST'];
             $database = $_ENV['DB_DATABASE'];
-            $username = $_ENV['DB_USERNAME'];
+            $usuario= $_ENV['DB_USUARIO'];
             $password = $_ENV['DB_PASSWORD'];
-            new BD($host, $database, $username, $password);
+            new BD($host, $database, $usuario, $password);
         }
         return self::$bd;
     }

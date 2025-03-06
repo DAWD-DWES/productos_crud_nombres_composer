@@ -1,6 +1,6 @@
 {
-    "name": "dawd/dwes05_banco",
-    "description": "Aplicación de operación bancaria",
+    "name": "dawd/productos_crud_nombres_composer",
+    "description": "Aplicación de operaciones CRUD sobre productos",
     "type": "project",
     "require": {
         "vlucas/phpdotenv": "^5.6",
